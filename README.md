@@ -20,7 +20,7 @@ sudo singularity build talklab-base.sif talklab-base.def
 
 ## Tidyverse container `talklab-tidy` v0.1.0
 
-This container is build from the `talklab-base` image, and adds the following R packages:
+This container is built from the `talklab-base` image, and adds the following R packages:
 
 * tidyverse
 * devtools
