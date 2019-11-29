@@ -1,0 +1,26 @@
+#+AUTHOR: 
+#+OPTIONS: toc:nil num:nil ^:nil ':t
+#+LANGUAGE: en
+#+LATEX_CLASS: apa6
+#+LATEX_CLASS_OPTIONS: [natbib,doc,a4paper]
+#+LATEX_HEADER: \abstract{TODO}
+#+LATEX_HEADER: \author{Your name here}
+#+LATEX_HEADER: \affiliation{Fancy University}
+#+LATEX_HEADER: \hypersetup{colorlinks,citecolor=black,linkcolor=black,urlcolor=blue}
+#+LATEX_HEADER: \authornote{Corresponding author: Dale J. Barr, Institute of Neuroscience and Psychology, University of Glasgow, 62 Hillhead St., Glasgow G12 8QB.}
+#+LATEX_HEADER: \shorttitle{SHORTTITLE GOES HERE}
+#+LATEX_HEADER: \hypersetup{colorlinks,citecolor=black,linkcolor=black,urlcolor=red}
+#+latex_compiler: pdflatex
+#+date: \today
+#+TITLE: This is a test!
+
+* Introduction
+
+All analyses used R src_R[:exports results :results value raw]{paste0(R.Version()$major, ".", R.Version()$minor)} \citep{R}.
+
+#+HEADER: :file mygraph.pdf
+#+begin_src R :exports both :results output graphics 
+plot(rnorm(100), rnorm(100))
+#+end_src
+
+#+LATEX: \bibliography{refs.bib}

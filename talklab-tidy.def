@@ -1,0 +1,16 @@
+Bootstrap: localimage
+From: /home/daleb/singularity-def/talklab-base.sif
+
+%labels
+   Author dalejbarr
+   Version 0.1.0
+
+%post
+   Rscript -e 'install.packages("Rcpp")'
+   wget https://github.com/dalejbarr/eyeread/releases/download/0.1.0/eyeread_0.1.0.tar.gz
+   R CMD INSTALL eyeread_0.1.0.tar.gz
+   Rscript -e 'install.packages("devtools")'
+   Rscript -e 'install.packages("tidyverse")'
+   Rscript -e 'install.packages(c("rmarkdown", "webex", "knitr", "kableExtra", "xtable"))'
+   Rscript -e 'install.packages(c("lme4", "ordinal"))'
+   Rscript -e 'install.packages("RSQLite")'
