@@ -1,3 +1,4 @@
+(setq user-emacs-directory-warning nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ess
 (setq ess-default-style 'DEFAULT)

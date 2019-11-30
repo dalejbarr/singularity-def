@@ -5,7 +5,13 @@ From: dalejbarr/talklab/talklab-tidy:0.1.0
    Author dalejbarr
    Version 0.1.0
 
-%post
-   mkdir /opt/scripts
-   cp power_clmm.R /opt/scripts/
+%files
+  clmm_maximal.rds /opt/data/clmm_maximal.rds
+  stim_lists.rds /opt/data/stim_lists.rds
+  power_clmm.R /opt/scripts/power_clmm.R
+  powerclmm /usr/bin/powerclmm
+  testsim /usr/bin/testsim  
 
+%post
+  chmod a+x /usr/bin/powerclmm
+  chmod a+x /usr/bin/testsim

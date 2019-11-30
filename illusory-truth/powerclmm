@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SCRIPTFILE=/opt/scripts/power_clmm.R
+
+if [ $# -ne 3 ]; then
+    echo "usage:"
+    echo "  $0 n_subjects raw_effect n_simulation_runs"
+    echo "      where raw_effect is .14(=H1 true) or 0(=H0 true)"
+    exit
+fi
+
+RDSFILE=`Rscript $SCRIPTFILE $1 $2 $3`
+RES=`curl -s -F name=${RDSFILE} -F data=@${RDSFILE} http://talklab.psy.gla.ac.uk/RData/upload.php`
+
+if [ "$RES" = "Successfully uploaded $RDSFILE" ]; then
+    echo "Power simulations successfully completed and successfully uploaded to the server."
+else
+    echo "Something went wrong, file $RDSFILE not uploaded: $RES"
+fi

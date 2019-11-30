@@ -88,7 +88,7 @@ From: ubuntu:18.04
    cat /opt/dotemacs >> /etc/emacs/site-start.el
 
    ## apa6 library
-   apt install -y curl unzip lmodern python-pygments git
+   apt install -y curl unzip lmodern python-pygments git openssh-client
    curl -o apa6.zip http://anorien.csc.warwick.ac.uk/mirrors/CTAN/macros/latex/contrib/apa6.zip && \
    unzip apa6.zip -d /usr/share/texmf/tex/latex/ && \
    rm apa6.zip && \
