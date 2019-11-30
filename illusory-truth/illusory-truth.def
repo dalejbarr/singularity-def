@@ -1,0 +1,11 @@
+Bootstrap: library
+From: dalejbarr/talklab/talklab-tidy:0.1.0
+
+%labels
+   Author dalejbarr
+   Version 0.1.0
+
+%post
+   mkdir /opt/scripts
+   cp power_clmm.R /opt/scripts/
+
