@@ -1,0 +1,16 @@
+Bootstrap: docker
+From: dalejbarr/talklab:1.0.0
+
+%environment
+    LC_ALL="C"
+    export LC_ALL
+
+%files
+    /home/daleb/singularity-def/common/dotemacs /opt/dotemacs
+
+%labels
+    Author dalejbarr
+    Version 0.1.0
+
+%post
+   cat /opt/dotemacs >> /etc/emacs/site-start.el

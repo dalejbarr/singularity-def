@@ -15,7 +15,7 @@ From: ubuntu:18.04
    eval ${@}
 
 %files
-    /home/daleb/singularity-def/dotemacs /opt/dotemacs
+    /home/daleb/singularity-def/common/dotemacs /opt/dotemacs
 
 %labels
    Author dalejbarr
