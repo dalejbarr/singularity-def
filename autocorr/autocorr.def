@@ -6,11 +6,16 @@ From: dalejbarr/talklab/talklab-tidy:0.1.0
    Version 0.1.0
 
 %files
-  ../testsim /usr/bin/testsim  
+  /home/daleb/singularity-def/autocorr/junk.R /opt/r_scripts/junk.R
+  /home/daleb/singularity-def/autocorr/test_script.R /opt/r_scripts/test_script.R
+  /home/daleb/singularity-def/autocorr/runsingle /usr/bin/runsingle
+  /home/daleb/singularity-def/autocorr/testsim /usr/bin/testsim
 
 %post
   chmod a+x /usr/bin/testsim
+  chmod a+x /usr/bin/runsingle
   Rscript -e 'devtools::install_github("dalejbarr/funfact")'
+  Rscript -e 'devtools::install_github("dalejbarr/autocorr")'
   Rscript -e 'install.packages("ggthemes")'
   Rscript -e 'install.packages("abind")'
   Rscript -e 'install.packages("pracma")'

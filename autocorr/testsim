@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ "$#" -eq 1 ]; then
+  ## push notification to mobile with Simplepush app: need key
+  KEY=$1
+else
+  KEY=
+fi
+
+runsingle /opt/r_scripts/junk.R 1 .01 .02 .03 $KEY

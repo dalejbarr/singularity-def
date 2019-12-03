@@ -6,6 +6,9 @@ From: ubuntu:18.04
     export LC_ALL
     alias emacs='emacs -q' # only use /etc/emacs/site-start.el
 
+%files
+    ~/singularity-def/common/dotemacs /opt/dotemacs
+
 %labels
     Author dalejbarr
     Version 0.1.0
@@ -13,9 +16,6 @@ From: ubuntu:18.04
 %runscript
    alias emacs='emacs -q'
    eval ${@}
-
-%files
-    /home/daleb/singularity-def/common/dotemacs /opt/dotemacs
 
 %labels
    Author dalejbarr
