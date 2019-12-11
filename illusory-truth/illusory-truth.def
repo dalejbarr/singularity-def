@@ -1,17 +1,19 @@
 Bootstrap: library
-From: dalejbarr/talklab/talklab-tidy:0.1.0
+From: dalejbarr/talklab/talklab-tidy:latest
 
 %labels
    Author dalejbarr
-   Version 0.1.0
+   Version 0.1.1
 
 %files
-  clmm_maximal.rds /opt/data/clmm_maximal.rds
-  stim_lists.rds /opt/data/stim_lists.rds
-  power_clmm.R /opt/scripts/power_clmm.R
   powerclmm /usr/bin/powerclmm
-  ../testsim /usr/bin/testsim  
+  powerlmem /usr/bin/powerlmem
+  powerscript /usr/bin/powerscript
 
 %post
+  chmod a+x /usr/bin/powerscript
   chmod a+x /usr/bin/powerclmm
-  chmod a+x /usr/bin/testsim
+  chmod a+x /usr/bin/powerlmem
+  git clone https://github.com/dalejbarr/truthiness.git
+  FNAME=`Rscript -e "ff <- devtools::build('truthiness'); cat(ff, '\n', sep = '')" | tail --lines=1 | xargs basename`
+  R CMD INSTALL $FNAME

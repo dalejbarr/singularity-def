@@ -1,5 +1,5 @@
 Bootstrap: localimage
-From: /home/daleb/singularity-def/talklab-base.sif
+From: /home/daleb/singularity-def/talklab-base/talklab-base.sif
 
 %labels
    Author dalejbarr
