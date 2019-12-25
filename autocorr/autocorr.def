@@ -1,21 +1,21 @@
 Bootstrap: library
-From: dalejbarr/talklab/talklab-tidy:0.1.0
+From: dalejbarr/talklab/talklab-tidy:latest
 
 %labels
    Author dalejbarr
-   Version 0.1.0
+   Version 0.1.6
 
 %files
-  /home/daleb/singularity-def/autocorr/junk.R /opt/r_scripts/junk.R
-  /home/daleb/singularity-def/autocorr/test_script.R /opt/r_scripts/test_script.R
-  /home/daleb/singularity-def/autocorr/runsingle /usr/bin/runsingle
-  /home/daleb/singularity-def/autocorr/testsim /usr/bin/testsim
+  /home/daleb/singularity-def/autocorr/acsim /usr/bin/acsim
+  /home/daleb/singularity-def/autocorr/process_results /usr/bin/process_results
+  /home/daleb/singularity-def/autocorr/process_results.R /opt/r_scripts/process_results.R
 
 %post
-  chmod a+x /usr/bin/testsim
-  chmod a+x /usr/bin/runsingle
-  Rscript -e 'devtools::install_github("dalejbarr/funfact")'
-  Rscript -e 'devtools::install_github("dalejbarr/autocorr")'
-  Rscript -e 'install.packages("ggthemes")'
-  Rscript -e 'install.packages("abind")'
-  Rscript -e 'install.packages("pracma")'
+  chmod a+x /usr/bin/acsim
+  chmod a+x /usr/bin/process_results
+  chmod a+r /opt/r_scripts/process_results.R
+  apt install time
+  Rscript -e 'devtools::install_github("dalejbarr/autocorr", upgrade = "never")'
+
+%runscript
+  acsim "$@"

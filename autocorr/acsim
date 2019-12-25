@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ "$#" -eq 0 ];
+then
+    NMC=1000
+else
+    NMC=$1
+fi
+
+vers={1..9}
+array1=(0 .05 .10 .15 .20 .25)
+array2=(0 .10 .20 .30 .40 .50)
+
+for ((i=0;i<${#array1[@]};++i)); do
+    k=`expr $i + 1`
+    printf "(%s/%s) A = %.2f, B = %.2f, AB = %.2f\n" "$k" "${#array1[@]}" "${array1[i]}" "${array2[i]}" "${array2[i]}"
+    for j in {1..9}; do
+	printf "      Running $NMC simulations of version %d of 9... " "$j"
+	CMD="suppressMessages(autocorr::mcsim($NMC, A = ${array1[i]}, B = ${array2[i]}, AB = ${array2[i]}, version = $j))"
+	EXECTIME=`(/usr/bin/time -f "%E" Rscript -e "$CMD") 2>&1`
+	printf "DONE in $EXECTIME\n"
+    done
+done
+
+echo "Simulations completed."

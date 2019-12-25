@@ -3,7 +3,7 @@ From: dalejbarr/talklab/talklab-tidy:latest
 
 %labels
    Author dalejbarr
-   Version 0.1.1
+   Version 0.1.2
 
 %files
   powerclmm /usr/bin/powerclmm

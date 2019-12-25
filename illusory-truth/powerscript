@@ -1,17 +1,16 @@
 #!/bin/bash
 
-if [ $# -ne 6 ]; then
+if [ $# -ne 8 ]; then
     BASE=`basename $0`
     1>&2 echo "usage:"
-    1>&2 echo "  $BASE model version effect n_subjects raw_effect n_simulation_runs"
+    1>&2 echo "  $BASE model p1 p2 p3 p4 target_effect n_subjects n_simulation_runs"
     1>&2 echo "      where model=(clmm,lmem)"
-    1>&2 echo "            version=(asymptote,single)"
-    1>&2 echo "            effect=(main,interaction)"
-    1>&2 echo "            raw_effect is .14(=H1 true) or 0(=H0 true)"
+    1>&2 echo "            p1 p2 p3 p4=illusory-truth effect profile"
+    1>&2 echo "            target_effect=(main,interaction)"
     exit
 fi
 
-CMD="truthiness::power_sim('$1', '$2', '$3', $4, $5, $6)"
+CMD="truthiness::power_sim('$1', c($2, $3, $4, $5), '$6', $7, $8)"
 1>&2 echo "Running in R: "
 1>&2 echo "  $CMD"
 RDSFILE=`Rscript -e "$CMD"`
