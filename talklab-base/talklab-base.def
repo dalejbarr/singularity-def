@@ -2,31 +2,28 @@ Bootstrap: library
 From: ubuntu:18.04
 
 %environment
-    LC_ALL="C"
+    LANG="en_GB.UTF-8"
+    LANGUAGE="en_GB.UTF-8"
+    LC_ALL="en_GB.UTF-8"
+    export LANG
+    export LANGUAGE
     export LC_ALL
-    alias emacs='emacs -q' # only use /etc/emacs/site-start.el
 
 %files
-    ~/singularity-def/common/dotemacs /opt/dotemacs
+    /home/daleb/singularity-def/talklab-base/dotemacs /opt/dotemacs
+    /home/daleb/singularity-def/talklab-base/emacs-pkg-install.sh /usr/bin/emacs-pkg-install.sh
 
 %labels
     Author dalejbarr
-    Version 0.1.0
-
-%runscript
-   alias emacs='emacs -q'
-   eval ${@}
-
-%labels
-   Author dalejbarr
-   Version 0.1.0
+    Version 0.2.0
 
 %post
-   ORGVERS=9.2.6
+   ORGVERS=9.3
    RVERS=3
-   RVERSFULL=3.6.1
+   RVERSFULL=3.6.2
    ESSVERS=18.10.2
    CURWD=$PWD
+   RVERS=`echo $RVERSFULL | cut -d "." -f 1`
 
    echo "deb http://gb.archive.ubuntu.com/ubuntu/ bionic main restricted" > /etc/apt/sources.list
    echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ bionic main restricted" >> /etc/apt/sources.list
@@ -41,13 +38,28 @@ From: ubuntu:18.04
    apt-get -y update
    apt-get -y upgrade
 
-   ## emacs, wget
-   apt-get -y install emacs25-nox wget
+   apt install -y locales
+   locale-gen en_GB.UTF-8
 
-   ## install R
+   ## wget and git
+   apt install -y wget git
+
+   ## emacs, wget
+   apt install -y emacs25-nox emacs-goodies-el
+
+   ## install additional emacs packages
+   chmod a+x /usr/bin/emacs-pkg-install.sh
+   mkdir -p /opt/emacs.d/packages
+   emacs-pkg-install.sh polymode
+   emacs-pkg-install.sh poly-markdown
+   emacs-pkg-install.sh poly-R
+   emacs-pkg-install.sh writeroom-mode
+   emacs-pkg-install.sh magit
+
+   ## install R dependencies
    apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev 
    apt-get -y build-dep r-base-dev
-
+   apt install -y curl unzip lmodern python-pygments openssh-client
    apt install -y libgit2-dev libssh2-1-dev
 
    wget http://cran.r-project.org/src/base/R-${RVERS}/R-${RVERSFULL}.tar.gz
@@ -66,13 +78,15 @@ From: ubuntu:18.04
    })' >> /usr/local/lib/R/library/base/R/Rprofile
    # comment out user's local library to prevent accidental installation
    sed -e 's/^R_LIBS_USER/#R_LIBS_USER/' -i /usr/local/lib/R/etc/Renviron
-   
+
    ## update org-mode   
    wget https://orgmode.org/org-${ORGVERS}.tar.gz
    tar -C /usr/share -xvzf org-${ORGVERS}.tar.gz
    cd /usr/share/org-${ORGVERS}
    make
+   make doc
    cd $CURWD
+   echo "(setq user-emacs-directory-warning nil)" >> /etc/emacs/site-start.el
    echo "(add-to-list 'load-path \"/usr/share/org-${ORGVERS}/lisp\")" >> /etc/emacs/site-start.el
    echo "(global-set-key (kbd \"C-c C-x w\") 'org-insert-structure-template)" >> /etc/emacs/site-start.el
 
@@ -85,10 +99,10 @@ From: ubuntu:18.04
    echo "(add-to-list 'load-path \"/usr/share/ess-${ESSVERS}/lisp\")" >> /etc/emacs/site-start.el
    echo "(setq ess-smart-S-assign-key \";\") ; if \";\" needed, press \";\" key twice" >> /etc/emacs/site-start.el
    echo "(require 'ess-r-mode)" >> /etc/emacs/site-start.el
+
    cat /opt/dotemacs >> /etc/emacs/site-start.el
 
    ## apa6 library
-   apt install -y curl unzip lmodern python-pygments git openssh-client
    curl -o apa6.zip http://anorien.csc.warwick.ac.uk/mirrors/CTAN/macros/latex/contrib/apa6.zip && \
    unzip apa6.zip -d /usr/share/texmf/tex/latex/ && \
    rm apa6.zip && \
