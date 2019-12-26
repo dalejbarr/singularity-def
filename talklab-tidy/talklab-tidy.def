@@ -3,7 +3,7 @@ From: /home/daleb/singularity-def/talklab-base/talklab-base.sif
 
 %labels
    Author dalejbarr
-   Version 0.1.0
+   Version 0.3.0
 
 %post
    Rscript -e 'install.packages("Rcpp")'
@@ -14,3 +14,4 @@ From: /home/daleb/singularity-def/talklab-base/talklab-base.sif
    Rscript -e 'install.packages(c("rmarkdown", "webex", "knitr", "kableExtra", "xtable"))'
    Rscript -e 'install.packages(c("lme4", "ordinal"))'
    Rscript -e 'install.packages("RSQLite")'
+   Rscript -e 'install.packages(c("bookdown"))'
