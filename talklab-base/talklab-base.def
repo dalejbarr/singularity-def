@@ -2,20 +2,20 @@ Bootstrap: library
 From: ubuntu:18.04
 
 %environment
-    LANG="en_GB.UTF-8"
-    LANGUAGE="en_GB.UTF-8"
-    LC_ALL="en_GB.UTF-8"
-    export LANG
-    export LANGUAGE
-    export LC_ALL
+   LANG="en_GB.UTF-8"
+   LANGUAGE="en_GB.UTF-8"
+   LC_ALL="en_GB.UTF-8"
+   export LANG
+   export LANGUAGE
+   export LC_ALL
 
 %files
-    /home/daleb/singularity-def/talklab-base/dotemacs /opt/dotemacs
-    /home/daleb/singularity-def/talklab-base/emacs-pkg-install.sh /usr/bin/emacs-pkg-install.sh
+   /home/daleb/singularity-def/talklab-base/dotemacs /opt/dotemacs
+   /home/daleb/singularity-def/talklab-base/emacs-pkg-install.sh /usr/bin/emacs-pkg-install.sh
 
 %labels
-    Author dalejbarr
-    Version 0.2.0
+   Author dalejbarr
+   Version 0.2.1
 
 %post
    ORGVERS=9.3
@@ -40,6 +40,12 @@ From: ubuntu:18.04
 
    apt install -y locales
    locale-gen en_GB.UTF-8
+   LANG="en_GB.UTF-8"
+   LANGUAGE="en_GB.UTF-8"
+   LC_ALL="en_GB.UTF-8"
+   export LANG
+   export LANGUAGE
+   export LC_ALL
 
    ## wget and git
    apt install -y wget git
@@ -60,10 +66,11 @@ From: ubuntu:18.04
    apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev 
    apt-get -y build-dep r-base-dev
    apt install -y curl unzip lmodern python-pygments openssh-client
-   apt install -y libgit2-dev libssh2-1-dev
+   apt install -y libgit2-dev libssh2-1-dev gnupg2
 
    wget http://cran.r-project.org/src/base/R-${RVERS}/R-${RVERSFULL}.tar.gz
    tar xvzf R-${RVERSFULL}.tar.gz
+   rm R-${RVERSFULL}.tar.gz
    cd R-${RVERSFULL}
    ./configure --with-cairo=yes --enable-R-shlib
    make
@@ -82,9 +89,10 @@ From: ubuntu:18.04
    ## update org-mode   
    wget https://orgmode.org/org-${ORGVERS}.tar.gz
    tar -C /usr/share -xvzf org-${ORGVERS}.tar.gz
+   rm org-${ORGVERS}.tar.gz
    cd /usr/share/org-${ORGVERS}
    make
-   make doc
+   make info
    cd $CURWD
    echo "(setq user-emacs-directory-warning nil)" >> /etc/emacs/site-start.el
    echo "(add-to-list 'load-path \"/usr/share/org-${ORGVERS}/lisp\")" >> /etc/emacs/site-start.el
@@ -93,6 +101,7 @@ From: ubuntu:18.04
    ## ess
    wget https://ess.r-project.org/downloads/ess/ess-${ESSVERS}.tgz
    tar -C /usr/share -xvzf ess-${ESSVERS}.tgz
+   rm ess-${ESSVERS}.tgz
    cd /usr/share/ess-${ESSVERS}
    make
    cd $CURWD
