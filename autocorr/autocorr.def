@@ -1,5 +1,5 @@
-Bootstrap: library
-From: dalejbarr/talklab/talklab-tidy:latest
+Bootstrap: localimage
+From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 
 %labels
    Author dalejbarr

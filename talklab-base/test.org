@@ -6,7 +6,6 @@
 #+LATEX_HEADER: \abstract{TODO}
 #+LATEX_HEADER: \author{Your name here}
 #+LATEX_HEADER: \affiliation{Fancy University}
-#+LATEX_HEADER: \hypersetup{colorlinks,citecolor=black,linkcolor=black,urlcolor=blue}
 #+LATEX_HEADER: \authornote{Corresponding author: Dale J. Barr, Institute of Neuroscience and Psychology, University of Glasgow, 62 Hillhead St., Glasgow G12 8QB.}
 #+LATEX_HEADER: \shorttitle{SHORTTITLE GOES HERE}
 #+LATEX_HEADER: \hypersetup{colorlinks,citecolor=black,linkcolor=black,urlcolor=red}

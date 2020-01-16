@@ -118,3 +118,5 @@ From: ubuntu:18.04
    cd /usr/share/texmf/tex/latex/apa6 && \
    latex apa6.ins && \
    texhash
+   apt install -y texlive-bibtex-extra
+   texhash
