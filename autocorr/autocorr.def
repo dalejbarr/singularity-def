@@ -3,7 +3,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 
 %labels
    Author dalejbarr
-   Version 0.1.6
+   Version 0.1.8
 
 %files
   /home/daleb/singularity-def/autocorr/acsim /usr/bin/acsim
@@ -15,6 +15,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   chmod a+x /usr/bin/process_results
   chmod a+r /opt/r_scripts/process_results.R
   apt install time
+  Rscript -e 'install.packages("itsadug")'
   Rscript -e 'devtools::install_github("dalejbarr/autocorr", upgrade = "never")'
 
 %runscript

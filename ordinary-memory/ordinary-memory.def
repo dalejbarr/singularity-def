@@ -6,11 +6,18 @@ From: dalejbarr/talklab:1.0.0
     export LC_ALL
 
 %files
-    /home/daleb/singularity-def/common/dotemacs /opt/dotemacs
+    /home/daleb/singularity-def/ordinary-memory/dotemacs /opt/dotemacs
 
 %labels
     Author dalejbarr
-    Version 0.1.0
+    Version 0.1.1
 
 %post
-   cat /opt/dotemacs >> /etc/emacs/site-start.el
+    cat /opt/dotemacs >> /etc/emacs/site-start.el
+
+    curl -o elsarticle.zip http://anorien.csc.warwick.ac.uk/mirrors/CTAN/macros/latex/contrib/elsarticle.zip && \
+       unzip elsarticle.zip -d /usr/share/texmf/tex/latex/ 
+    cd /usr/share/texmf/tex/latex/elsarticle && \
+    latex elsarticle.ins 
+    cd -
+    texhash

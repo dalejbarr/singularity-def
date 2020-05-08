@@ -1,0 +1,76 @@
+(setq user-emacs-directory-warning nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ess
+(setq ess-default-style 'DEFAULT)
+(setq comint-scroll-to-bottom-on-output t)
+(setq ess-ask-for-ess-directory nil)
+
+(defun latex-mode-reftex-setup ()
+  (load-library "reftex")
+  (and (buffer-file-name)
+       (file-exists-p (buffer-file-name))
+       (reftex-parse-all))
+  (define-key global-map (kbd "C-c )") 'reftex-citation)
+  )
+(add-hook 'latex-mode-hook 'latex-mode-reftex-setup)
+
+(global-set-key (kbd "C-x c") 'compile)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; org mode
+(setq org-confirm-babel-evaluate nil)
+(setq org-export-with-smart-quotes t)
+
+(require 'ox-latex)
+(require 'ox-md)
+(setq org-latex-minted-options
+			'(("bgcolor" "bg") ("frame" "lines")))
+
+(add-to-list 'org-latex-classes
+	     '("apa6"
+	       "\\documentclass[{{{{CLASS_OPTIONS}}}}]{apa6}
+               \\usepackage{graphicx}
+               \\usepackage{hyperref}"
+	       ("\\section{%s}" . "\\section*{%s}")
+	       ("\\subsection{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+))
+
+(add-to-list 'org-latex-classes
+	     '("elsarticle"
+	       "\\documentclass[{{{{CLASS_OPTIONS}}}}]{elsarticle}
+               \\usepackage{graphicx}
+               \\usepackage{lineno}
+               \\usepackage{hyperref}"
+	       ("\\section*{%s}" . "\\section*{%s}")
+	       ("\\subsection*{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")
+	       ))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)
+   (latex . t)
+   (shell . t)  
+))
+
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-custom-lang-environments
+      '(
+	(emacs-lisp "common-lispcode")
+	))
+(setq org-latex-minted-options
+      '(("frame" "lines")
+	("fontsize" "\\scriptsize")
+	("linenos" "")
+	("tabsize" "2")
+	))
+(add-to-list 'org-latex-minted-langs '(R "r"))
+
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+

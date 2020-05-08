@@ -3,19 +3,25 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 
 %labels
    Author dalejbarr
-   Version 0.1.3
+   Version 0.7.3
 
 %files
   powerclmm /usr/bin/powerclmm
   powergamm /usr/bin/powergamm
   powerlmem /usr/bin/powerlmem
+  powerequiv /usr/bin/powerequiv
   powerscript /usr/bin/powerscript
+  makeit /usr/bin/makeit
+  Makefile /opt/makeit/Makefile
 
 %post
   chmod a+x /usr/bin/powerscript
   chmod a+x /usr/bin/powerclmm
   chmod a+x /usr/bin/powergamm  
   chmod a+x /usr/bin/powerlmem
+  chmod a+x /usr/bin/powerequiv
+  chmod a+x /usr/bin/makeit
   git clone https://github.com/dalejbarr/truthiness.git
   FNAME=`Rscript -e "ff <- devtools::build('truthiness'); cat(ff, '\n', sep = '')" | tail --lines=1 | xargs basename`
   R CMD INSTALL $FNAME
+  Rscript -e 'install.packages("ez")'
