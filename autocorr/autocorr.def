@@ -14,7 +14,9 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   chmod a+x /usr/bin/acsim
   chmod a+x /usr/bin/process_results
   chmod a+r /opt/r_scripts/process_results.R
-  apt install time
+  apt update
+  apt install -y time openssh-server
+  sed -i 's/^\s*#\s*\(ForwardX11\)\{1\}\(Trusted\)*\s\+\(no\|yes\)\+/\1\2 yes/g' /etc/ssh/ssh_config
   Rscript -e 'install.packages("itsadug")'
   Rscript -e 'devtools::install_github("dalejbarr/autocorr", upgrade = "never")'
 
