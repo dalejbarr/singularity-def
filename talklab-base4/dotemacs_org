@@ -1,0 +1,91 @@
+(setq ess-smart-S-assign-key ";")  ;if ";" needed, press ";" key twice
+
+(require 'ess-site)
+(require 'ess-rutils)
+
+(dolist (map (list ess-mode-map inferior-ess-mode-map))
+  (define-key map (kbd ";") 'ess-insert-assign))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; polymode / markdown / RMarkdown
+
+;;; Markdown mode
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
+(setq auto-mode-alist (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.ronn?" . markdown-mode) auto-mode-alist))
+
+;;; Polymode
+(require 'poly-R)
+(require 'poly-markdown)
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; org-mode & ess additional configuration
+;; Must be specified before loading ESS. Not really sure if this is still needed
+
+(setq user-emacs-directory-warning nil)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c C-x w") 'org-insert-structure-template)
+(setq ess-default-style 'DEFAULT)
+(setq comint-scroll-to-bottom-on-output t)
+(setq ess-ask-for-ess-directory nil)
+
+(setq org-confirm-babel-evaluate nil)
+(setq org-export-with-smart-quotes t)
+
+(require 'ox-latex)
+(require 'ox-md)
+(setq org-latex-minted-options
+			'(("bgcolor" "bg") ("frame" "lines")))
+
+(add-to-list 'org-latex-classes
+	     '("apa6"
+	       "\\documentclass[{{{{CLASS_OPTIONS}}}}]{apa6}
+               \\usepackage{graphicx}
+               \\usepackage{hyperref}"
+	       ("\\section{%s}" . "\\section*{%s}")
+	       ("\\subsection{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)
+   (latex . t)
+   (shell . t)  
+))
+
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-custom-lang-environments
+      '(
+	(emacs-lisp "common-lispcode")
+	))
+(setq org-latex-minted-options
+      '(("frame" "lines")
+	("fontsize" "\\scriptsize")
+	("linenos" "")
+	("tabsize" "2")
+	))
+(add-to-list 'org-latex-minted-langs '(R "r"))
+
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;; further org-mode configuration for org-reveal slides
+(require 'org-re-reveal)
+; (setq org-re-reveal-root "file:///usr/share/reveal.js")
+
+(require 'company)
+(add-to-list 'company-backends
+             '(company-R-args company-R-objects company-dabbrev-code :separate))
+(add-hook 'after-init-hook 'global-company-mode)

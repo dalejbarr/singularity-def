@@ -18,11 +18,14 @@ There are two things you can do about this warning:
 (setq package-user-dir "/opt/emacs.d/packages")
 (package-initialize)
 
+(add-to-list 'company-backends
+	          '(company-R-args company-R-objects company-dabbrev-code :separate))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ess
 (setq ess-default-style 'DEFAULT)
 (setq comint-scroll-to-bottom-on-output t)
-(setq ess-ask-for-ess-directory nil)
+; (setq ess-ask-for-ess-directory nil)
 
 (defun latex-mode-reftex-setup ()
   (load-library "reftex")
@@ -100,5 +103,4 @@ There are two things you can do about this warning:
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
-
 

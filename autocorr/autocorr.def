@@ -17,7 +17,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   apt update
   apt install -y time openssh-server
   sed -i 's/^\s*#\s*\(ForwardX11\)\{1\}\(Trusted\)*\s\+\(no\|yes\)\+/\1\2 yes/g' /etc/ssh/ssh_config
-  Rscript -e 'install.packages("itsadug")'
+  Rscript -e 'install.packages(c("itsadug", "viridis"))'
   Rscript -e 'devtools::install_github("dalejbarr/autocorr", upgrade = "never")'
 
 %runscript

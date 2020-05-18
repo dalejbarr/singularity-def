@@ -10,12 +10,13 @@ From: ubuntu:18.04
    export LC_ALL
 
 %files
-   /home/daleb/singularity-def/talklab-base/dotemacs /opt/dotemacs
-   /home/daleb/singularity-def/talklab-base/emacs-pkg-install.sh /usr/bin/emacs-pkg-install.sh
+   /home/daleb/singularity-def/talklab-base4/dotemacs /opt/dotemacs
+   /home/daleb/singularity-def/talklab-base4/dotemacs_org /opt/dotemacs_org
+   /home/daleb/singularity-def/talklab-base4/emacs-pkg-install.sh /usr/bin/emacs-pkg-install.sh
 
 %labels
    Author dalejbarr
-   Version 0.4.1
+   Version 0.4.2
 
 %post
    ORGVERS=9.3
@@ -51,31 +52,21 @@ From: ubuntu:18.04
    apt install -y wget git
 
    ## emacs, wget
-   apt install -y emacs25 emacs-goodies-el
-
-   ## install additional emacs packages
-   chmod a+x /usr/bin/emacs-pkg-install.sh
-   mkdir -p /opt/emacs.d/packages
-   emacs-pkg-install.sh polymode
-   emacs-pkg-install.sh poly-markdown
-   emacs-pkg-install.sh poly-R
-   emacs-pkg-install.sh writeroom-mode
-   emacs-pkg-install.sh magit
-   emacs-pkg-install.sh company
-   emacs-pkg-install.sh company-math
-   emacs-pkg-install.sh company-statistics
-   emacs-pkg-install.sh solarized-theme
+   apt install -y software-properties-common
+   add-apt-repository -y ppa:kelleyk/emacs
+   apt install -y emacs26 emacs-goodies-el
 
    ## install R dependencies
    apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev 
    apt-get -y build-dep r-base-dev
    apt install -y curl unzip lmodern python-pygments openssh-client openssh-server
-   apt install -y libgit2-dev libssh2-1-dev gnupg2
+   apt install -y libgit2-dev libssh2-1-dev gnupg2 libpcre2-dev zlib1g-dev
 
    wget http://cran.r-project.org/src/base/R-${RVERS}/R-${RVERSFULL}.tar.gz
    tar xvzf R-${RVERSFULL}.tar.gz
    rm R-${RVERSFULL}.tar.gz
    cd R-${RVERSFULL}
+   
    ./configure --with-cairo=yes --enable-R-shlib
    make
    make install
@@ -90,7 +81,7 @@ From: ubuntu:18.04
    # comment out user's local library to prevent accidental installation
    sed -e 's/^R_LIBS_USER/#R_LIBS_USER/' -i /usr/local/lib/R/etc/Renviron
 
-   ## update org-mode   
+   ## update org-mode and reveal
    wget https://orgmode.org/org-${ORGVERS}.tar.gz
    tar -C /usr/share -xvzf org-${ORGVERS}.tar.gz
    rm org-${ORGVERS}.tar.gz
@@ -98,9 +89,6 @@ From: ubuntu:18.04
    make
    make info
    cd $CURWD
-   echo "(setq user-emacs-directory-warning nil)" >> /etc/emacs/site-start.el
-   echo "(add-to-list 'load-path \"/usr/share/org-${ORGVERS}/lisp\")" >> /etc/emacs/site-start.el
-   echo "(global-set-key (kbd \"C-c C-x w\") 'org-insert-structure-template)" >> /etc/emacs/site-start.el
 
    ## ess
    wget https://ess.r-project.org/downloads/ess/ess-${ESSVERS}.tgz
@@ -109,11 +97,34 @@ From: ubuntu:18.04
    cd /usr/share/ess-${ESSVERS}
    make
    cd $CURWD
-   echo "(add-to-list 'load-path \"/usr/share/ess-${ESSVERS}/lisp\")" >> /etc/emacs/site-start.el
-   echo "(setq ess-smart-S-assign-key \";\") ; if \";\" needed, press \";\" key twice" >> /etc/emacs/site-start.el
-   echo "(require 'ess-r-mode)" >> /etc/emacs/site-start.el
 
-   cat /opt/dotemacs >> /etc/emacs/site-start.el
+   ## install additional emacs packages
+   chmod a+x /usr/bin/emacs-pkg-install.sh
+   mkdir -p /opt/emacs.d/packages
+   emacs-pkg-install.sh polymode
+   emacs-pkg-install.sh poly-markdown
+   emacs-pkg-install.sh poly-R
+   emacs-pkg-install.sh writeroom-mode
+   emacs-pkg-install.sh magit
+   emacs-pkg-install.sh company
+   emacs-pkg-install.sh company-math
+   emacs-pkg-install.sh company-statistics
+   emacs-pkg-install.sh solarized-theme
+   emacs-pkg-install.sh org-ref
+   emacs-pkg-install.sh org-re-reveal
+   emacs-pkg-install.sh org-re-reveal-ref
+   emacs-pkg-install.sh oer-reveal
+   git clone https://github.com/hakimel/reveal.js.git /usr/share/reveal.js
+   ## git clone --recursive https://gitlab.com/oer/emacs-reveal.git /usr/share/emacs-reveal
+
+   ## set up emacs config file in /usr/share/emacs/site-lisp/site-start.el
+
+   cat /opt/dotemacs >> /usr/share/emacs/site-lisp/site-start.el
+   echo "(add-to-list 'load-path \"/usr/share/org-${ORGVERS}/lisp\")" >> /usr/share/emacs/site-lisp/site-start.el
+   echo "(add-to-list 'load-path \"/usr/share/ess-${ESSVERS}/lisp\")" >> /usr/share/emacs/site-lisp/site-start.el   
+   cat /opt/dotemacs_org >> /usr/share/emacs/site-lisp/site-start.el
+   rm /opt/dotemacs /opt/dotemacs_org
+   emacs --batch 
 
    ## apa6 library
    curl -o apa6.zip http://anorien.csc.warwick.ac.uk/mirrors/CTAN/macros/latex/contrib/apa6.zip && \
