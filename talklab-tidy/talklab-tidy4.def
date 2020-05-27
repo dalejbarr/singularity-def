@@ -1,15 +1,14 @@
 Bootstrap: localimage
-From: /home/daleb/singularity-def/talklab-base/talklab-base.sif
+From: /home/daleb/singularity-def/talklab-base4/talklab-base4.sif
 
 %labels
    Author dalejbarr
-   Version 0.4.1
+   Version 0.4.4
 
 %files
    dotemacs_edits /opt/dotemacs_edits
 
 %post
-   git clone --recursive https://gitlab.com/oer/emacs-reveal.git /usr/share/emacs-reveal
    cat /opt/dotemacs_edits >> /usr/share/emacs/site-lisp/site-start.el
    rm /opt/dotemacs_edits
    apt install -y pandoc pandoc-citeproc
@@ -18,7 +17,7 @@ From: /home/daleb/singularity-def/talklab-base/talklab-base.sif
    R CMD INSTALL eyeread_0.1.0.tar.gz
    Rscript -e 'install.packages("devtools")'
    Rscript -e 'install.packages("tidyverse")'
-   Rscript -e 'install.packages(c("rmarkdown", "webex", "knitr", "kableExtra", "xtable", "htmlTable"))'
+   Rscript -e 'install.packages(c("rmarkdown", "shiny", "webex", "knitr", "kableExtra", "xtable", "htmlTable", "patchwork"))'
    Rscript -e 'install.packages(c("lme4", "ordinal", "multcomp", "emmeans"))'
    Rscript -e 'install.packages("RSQLite")'
    Rscript -e 'install.packages(c("bookdown"))'
