@@ -58,7 +58,7 @@ From: ubuntu:18.04
 
    ## install R dependencies
    apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev 
-   apt-get -y build-dep r-base-dev
+   apt install -y zip unzip build-dep r-base-dev
    apt install -y curl unzip lmodern python-pygments openssh-client openssh-server
    apt install -y libgit2-dev libssh2-1-dev gnupg2 libpcre2-dev zlib1g-dev
 
