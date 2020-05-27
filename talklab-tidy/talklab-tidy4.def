@@ -1,5 +1,5 @@
 Bootstrap: localimage
-From: /home/daleb/singularity-def/talklab-base4/talklab-base4.sif
+From: ../talklab-base4/talklab-base4.sif
 
 %labels
    Author dalejbarr
@@ -9,7 +9,7 @@ From: /home/daleb/singularity-def/talklab-base4/talklab-base4.sif
    dotemacs_edits /opt/dotemacs_edits
 
 %post
-   cat /opt/dotemacs_edits >> /usr/share/emacs/site-lisp/site-start.el
+   cat /opt/dotemacs_edits >> /usr/local/share/emacs/site-lisp/site-start.el
    rm /opt/dotemacs_edits
    apt install -y pandoc pandoc-citeproc
    Rscript -e 'install.packages("Rcpp")'
