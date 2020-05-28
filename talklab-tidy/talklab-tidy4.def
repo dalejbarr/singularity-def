@@ -11,7 +11,7 @@ From: ../talklab-base4/talklab-base4.sif
 %post
    cat /opt/dotemacs_edits >> /usr/local/share/emacs/site-lisp/site-start.el
    rm /opt/dotemacs_edits
-   apt install -y pandoc pandoc-citeproc
+   apt install -y pandoc pandoc-citeproc w3c-linkchecker
    Rscript -e 'install.packages("Rcpp")'
    wget https://github.com/dalejbarr/eyeread/releases/download/0.1.0/eyeread_0.1.0.tar.gz
    R CMD INSTALL eyeread_0.1.0.tar.gz

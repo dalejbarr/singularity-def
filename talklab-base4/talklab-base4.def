@@ -1,5 +1,5 @@
 Bootstrap: library
-From: ubuntu:18.04
+From: ubuntu:20.04
 
 %environment
    LANG="en_GB.UTF-8"
@@ -10,31 +10,32 @@ From: ubuntu:18.04
    export LC_ALL
 
 %files
-   /home/daleb/singularity-def/talklab-base4/dotemacs /opt/dotemacs
-   /home/daleb/singularity-def/talklab-base4/dotemacs_org /opt/dotemacs_org
-   /home/daleb/singularity-def/talklab-base4/emacs-pkg-install.sh /usr/bin/emacs-pkg-install.sh
+   dotemacs /opt/dotemacs
+   dotemacs_org /opt/dotemacs_org
+   emacs-pkg-install.sh /usr/bin/emacs-pkg-install.sh
 
 %labels
    Author dalejbarr
-   Version 0.4.2
+   Version 0.4.4
 
 %post
    ORGVERS=9.3
    RVERS=4
    RVERSFULL=4.0.0
+   EMACSVERS=26.3
    ESSVERS=18.10.2
    CURWD=$PWD
    RVERS=`echo $RVERSFULL | cut -d "." -f 1`
 
-   echo "deb http://gb.archive.ubuntu.com/ubuntu/ bionic main restricted" > /etc/apt/sources.list
-   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ bionic main restricted" >> /etc/apt/sources.list
-   echo "deb http://gb.archive.ubuntu.com/ubuntu/ bionic-updates main restricted" >> /etc/apt/sources.list
-   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ bionic-updates main restricted" >> /etc/apt/sources.list
+   echo "deb http://gb.archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list
+   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ focal main restricted" >> /etc/apt/sources.list
+   echo "deb http://gb.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list
+   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list
 
-   echo "deb http://gb.archive.ubuntu.com/ubuntu/ bionic universe" >> /etc/apt/sources.list
-   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ bionic universe" >> /etc/apt/sources.list
-   echo "deb http://gb.archive.ubuntu.com/ubuntu/ bionic-updates universe" >> /etc/apt/sources.list
-   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ bionic-updates universe" >> /etc/apt/sources.list
+   echo "deb http://gb.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list
+   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list
+   echo "deb http://gb.archive.ubuntu.com/ubuntu/ focal-updates universe" >> /etc/apt/sources.list
+   echo "deb-src http://gb.archive.ubuntu.com/ubuntu/ focal-updates universe" >> /etc/apt/sources.list
 
    apt-get -y update
    apt-get -y upgrade
@@ -48,19 +49,31 @@ From: ubuntu:18.04
    export LANGUAGE
    export LC_ALL
 
-   ## wget and git
-   apt install -y wget git
+   ## wget git rsync
+   apt install -y wget git rsync
 
    ## emacs, wget
+   apt install -y dialog apt-utils 
    apt install -y software-properties-common
-   add-apt-repository -y ppa:kelleyk/emacs
-   apt install -y emacs26 emacs-goodies-el
+
+   ## emacs
+   ## add-apt-repository -y ppa:kelleyk/emacs
+   ## apt install -y emacs26 emacs-goodies-el
+   apt build-dep -y emacs
+   wget http://ftp.snt.utwente.nl/pub/software/gnu/emacs/emacs-${EMACSVERS}.tar.gz
+   tar xvzf emacs-${EMACSVERS}.tar.gz
+   cd emacs-${EMACSVERS}
+   ./configure
+   make -j4
+   make install
+   cd ..
 
    ## install R dependencies
    apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev 
-   apt install -y zip unzip build-dep r-base-dev
+   apt install -y zip unzip
+   apt build-dep -y r-base-dev
    apt install -y curl unzip lmodern python-pygments openssh-client openssh-server
-   apt install -y libgit2-dev libssh2-1-dev gnupg2 libpcre2-dev zlib1g-dev
+   apt install -y libgit2-dev libssh2-1-dev gnupg2 # libpcre2-dev zlib1g-dev
 
    wget http://cran.r-project.org/src/base/R-${RVERS}/R-${RVERSFULL}.tar.gz
    tar xvzf R-${RVERSFULL}.tar.gz
@@ -117,12 +130,12 @@ From: ubuntu:18.04
    git clone https://github.com/hakimel/reveal.js.git /usr/share/reveal.js
    ## git clone --recursive https://gitlab.com/oer/emacs-reveal.git /usr/share/emacs-reveal
 
-   ## set up emacs config file in /usr/share/emacs/site-lisp/site-start.el
+   ## set up emacs config file in /usr/local/share/emacs/site-lisp/site-start.el
 
-   cat /opt/dotemacs >> /usr/share/emacs/site-lisp/site-start.el
-   echo "(add-to-list 'load-path \"/usr/share/org-${ORGVERS}/lisp\")" >> /usr/share/emacs/site-lisp/site-start.el
-   echo "(add-to-list 'load-path \"/usr/share/ess-${ESSVERS}/lisp\")" >> /usr/share/emacs/site-lisp/site-start.el   
-   cat /opt/dotemacs_org >> /usr/share/emacs/site-lisp/site-start.el
+   cat /opt/dotemacs >> /usr/local/share/emacs/site-lisp/site-start.el
+   echo "(add-to-list 'load-path \"/usr/share/org-${ORGVERS}/lisp\")" >> /usr/local/share/emacs/site-lisp/site-start.el
+   echo "(add-to-list 'load-path \"/usr/share/ess-${ESSVERS}/lisp\")" >> /usr/local/share/emacs/site-lisp/site-start.el   
+   cat /opt/dotemacs_org >> /usr/local/share/emacs/site-lisp/site-start.el
    rm /opt/dotemacs /opt/dotemacs_org
    emacs --batch 
 
