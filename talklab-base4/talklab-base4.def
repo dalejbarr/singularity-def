@@ -60,6 +60,7 @@ From: ubuntu:20.04
    ## add-apt-repository -y ppa:kelleyk/emacs
    ## apt install -y emacs26 emacs-goodies-el
    apt build-dep -y emacs
+   apt install -y libmagickcore-dev libmagick++-dev
    wget http://ftp.snt.utwente.nl/pub/software/gnu/emacs/emacs-${EMACSVERS}.tar.gz
    tar xvzf emacs-${EMACSVERS}.tar.gz
    cd emacs-${EMACSVERS}
@@ -117,6 +118,7 @@ From: ubuntu:20.04
    emacs-pkg-install.sh polymode
    emacs-pkg-install.sh poly-markdown
    emacs-pkg-install.sh poly-R
+   emacs-pkg-install.sh yaml-mode
    emacs-pkg-install.sh writeroom-mode
    emacs-pkg-install.sh magit
    emacs-pkg-install.sh company
