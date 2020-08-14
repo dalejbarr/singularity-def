@@ -19,6 +19,12 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   sed -i 's/^\s*#\s*\(ForwardX11\)\{1\}\(Trusted\)*\s\+\(no\|yes\)\+/\1\2 yes/g' /etc/ssh/ssh_config
   Rscript -e 'install.packages(c("patchwork", "viridis"))'
   Rscript -e 'devtools::install_github("dalejbarr/autocorr", upgrade = "never")'
+  curl -o elsarticle.zip http://anorien.csc.warwick.ac.uk/mirrors/CTAN/macros/latex/contrib/elsarticle.zip && \
+     unzip elsarticle.zip -d /usr/share/texmf/tex/latex/ 
+  cd /usr/share/texmf/tex/latex/elsarticle && \
+  latex elsarticle.ins 
+  cd -
+  texhash
 
 %runscript
   acsim "$@"
