@@ -1,0 +1,10 @@
+(add-to-list 'org-latex-classes
+	     '("elsarticle"
+	       "\\documentclass[{{{{CLASS_OPTIONS}}}}]{elsarticle}
+               \\usepackage{graphicx}
+               \\usepackage{lineno}
+               \\usepackage{hyperref}"
+	       ("\\section*{%s}" . "\\section*{%s}")
+	       ("\\subsection*{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")
+	       ))
