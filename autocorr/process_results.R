@@ -23,7 +23,7 @@ getdata <- function(x) {
   separate(version, c("model", "rb", "effect"), "\\.")
 }
 
-allfiles <- dir(my_path, "^ac.*\\.rds$")
+allfiles <- dir(my_path, "^acs_.*\\.rds$")
 
 if (length(allfiles) == 0L) {
   stop("No output files found in ",
@@ -47,7 +47,7 @@ alldat <- tibble(fname = allfiles) %>%
 					TRUE ~ AB)),
 	 allocation = if_else(rb == "r", "randomized", "blocked"))
 
-cases <- tibble(version = 2:9,
+cases <- tibble(version = 1:8,
 		case = factor(c("1. varying phase",
 				"2. varying amp",
 				"3. random walk 1",
@@ -58,7 +58,7 @@ cases <- tibble(version = 2:9,
 				"8. multi 2 + 4")))
 
 control <- alldat %>%
-  filter(version == 1L) %>%
+  filter(version == 0L) %>%
   group_by(ns, nobs, effsize, factor, allocation) %>%
   summarize(psig = mean(sig), N = n()) %>%
   ungroup()
@@ -68,7 +68,7 @@ ctrlB <- control %>% filter(factor == "B")
 ctrlAB <- control %>% filter(factor == "AB")
 
 mstats <- alldat %>%
-  filter(version != 1L) %>%
+  filter(version != 0L) %>%
   inner_join(cases, "version") %>%
   group_by(ns, nobs, effsize, case, model, allocation, factor) %>%
   summarize(psig = mean(sig), N = n()) %>%
