@@ -38,6 +38,7 @@ do
 	    done
 	    ;;
 	-nb) FITBLOCKED=FALSE
+	     ;;
 	-os) OSMOOTH=TRUE
 	     ;;
 	*) usage
