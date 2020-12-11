@@ -8,13 +8,13 @@ VERS=(0 1 2 3 4 5 6 7 8)
 
 function usage {
     echo "usage: "
-    echo "  $0 -os -n n_runs -k kvalue -m mvalue"
+    echo "  $0 -os -n xxxx -k yyyy -m zzzz -v v1 v2 v3"
     echo "where:"
     echo "  -os             select 'os_always = TRUE' (force overall smooth)"
-    echo "  -n  nnnn        number of monte carlo runs (default 1000)"
-    echo "  -k  nnnn        k parameter for factor smooths (basis dimensions; default -1)"
-    echo "  -m  nnnn        m parameter for factor smooths (penalization; default NA)"
-    echo "  -v  v1 v2 v3    version(s) of time-varying scenarios to run (default: 0 to 8)"
+    echo "  -n  xxxx        number of monte carlo runs (default 1000)"
+    echo "  -k  yyyy        k parameter for factor smooths (basis dimensions; default -1)"
+    echo "  -m  zzzz        m parameter for factor smooths (penalization; default NA)"
+    echo "  -v  v1 v2 v3    version(s) of time-varying scenarios to run (default: 0 to 10)"
 }
 
 while [ -n "$1" ]
@@ -62,7 +62,7 @@ for ((i=0;i<${#array1[@]};++i)); do
 	LEN=`expr length "$CMD" - 1`
 	SUBSTR=`echo "$CMD" | cut -c 18-$LEN`
 	printf "      $SUBSTR\n"
-	printf "      Running $NMC simulations of version %d of 8... " "$j"
+	printf "      Running $NMC simulations of version %d ... " "$j"
 	EXECTIME=`(/usr/bin/time -f "%E" Rscript -e "$CMD") 2>&1`
 	printf "DONE in $EXECTIME\n"
     done
