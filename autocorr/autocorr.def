@@ -22,7 +22,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   apt install -y time openssh-server zip unzip
   sed -i 's/^\s*#\s*\(ForwardX11\)\{1\}\(Trusted\)*\s\+\(no\|yes\)\+/\1\2 yes/g' /etc/ssh/ssh_config
   Rscript -e 'install.packages(c("patchwork", "viridis"))'
-  Rscript -e 'devtools::install_github("dalejbarr/autocorr", upgrade = "never")'
+  Rscript -e 'devtools::install_github("dalejbarr/autocorr@rev1", upgrade = "never")'
   unzip /opt/elsarticle.zip -d /usr/share/texmf/tex/latex/ 
   cd /usr/share/texmf/tex/latex/elsarticle && \
   latex elsarticle.ins 
