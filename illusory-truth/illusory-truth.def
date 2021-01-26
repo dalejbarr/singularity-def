@@ -3,7 +3,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 
 %labels
    Author dalejbarr
-   Version 0.8.0
+   Version 1.0.0
 
 %files
   powerclmm /usr/bin/powerclmm
