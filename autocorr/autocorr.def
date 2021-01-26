@@ -7,6 +7,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 
 %files
   /home/daleb/singularity-def/autocorr/acsim /usr/bin/acsim
+  /home/daleb/singularity-def/autocorr/custom /usr/bin/custom
   /home/daleb/singularity-def/autocorr/process_results /usr/bin/process_results
   /home/daleb/singularity-def/autocorr/process_results.R /opt/r_scripts/process_results.R
   /home/daleb/singularity-def/autocorr/dotemacs /opt/dotemacs
@@ -15,6 +16,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 %post
   cat /opt/dotemacs >> /etc/emacs/site-start.el
   chmod a+x /usr/bin/acsim
+  chmod a+x /usr/bin/custom
   chmod a+x /usr/bin/process_results
   chmod a+r /opt/r_scripts/process_results.R
   chmod a+r /opt/elsarticle.zip

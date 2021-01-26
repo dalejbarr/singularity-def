@@ -1,0 +1,87 @@
+#!/bin/bash
+
+NMC=1000
+KPARAM=-1
+MPARAM=NA
+OSMOOTH=TRUE
+FITBLOCKED=TRUE
+FITLMEM=TRUE
+RHO=0
+
+function usage {
+    echo "usage: "
+    echo "  $0 myfunc script.R -nos -nb -nl -r wwww -n xxxx -k yyyy -m zzzz"
+    echo "where:"
+    echo "  myfunc          name of custom function"
+    echo "  script.R        name of R script where myfunc is defined"
+    echo "  -nos            select 'os_always = FALSE' (exclude overall smooth)"
+    echo "  -nb             skip fitting of blocked version"
+    echo "  -nl             skip fitting of linear mixed-effects model"
+    echo "  -h              show help screen"
+    echo "  -r  wwww        set rho (default 0)"
+    echo "  -n  xxxx        number of monte carlo runs (default 1000)"
+    echo "  -k  yyyy        k parameter for factor smooths (basis dimensions; default -1)"
+    echo "  -m  zzzz        m parameter for factor smooths (penalization; default NA)"
+}
+
+if [ $# -lt 2 ];
+then usage
+     exit 
+fi
+
+VERS=$1
+RSCRIPT=$2
+
+while [ -n "$3" ]
+do
+    case "$3" in
+	-h) usage
+	    exit ;;
+	-k) KPARAM="$4"
+	    shift ;;
+	-m) MPARAM="$4"
+	    shift ;;
+	-n) NMC="$4"
+	    shift ;;
+	-r) RHO="$4"
+	    shift ;;
+	-nb) FITBLOCKED=FALSE
+	     ;;
+	-nl) FITLMEM=FALSE
+	     ;;
+	-nos) OSMOOTH=FALSE
+	     ;;
+	*) usage
+	   exit ;;
+    esac
+    shift
+done
+
+if [[ $OSMOOTH == "TRUE" ]]
+then
+    echo "a common smooth will be fit to the data"
+else
+    echo "no common smooth will be fit to the data"
+fi
+   
+echo "running with nruns=$NMC k=$KPARAM m=$MPARAM"
+echo "versions: ${VERS[@]}"
+
+array1=(0 .05 .10 .15 .20 .25)
+array2=(0 .10 .20 .30 .40 .50)
+
+for ((i=0;i<${#array1[@]};++i)); do
+    k=`expr $i + 1`
+    printf "(%s/%s) A = %.2f, B = %.2f, AB = %.2f\n" "$k" "${#array1[@]}" "${array1[i]}" "${array2[i]}" "${array2[i]}"
+    for j in "${VERS[@]}"; do
+	CMD="source('$RSCRIPT'); suppressMessages(autocorr::mcsim($NMC, A = ${array1[i]}, B = ${array2[i]}, AB = ${array2[i]}, version = \"$j\", os_always = $OSMOOTH, k = $KPARAM, m = $MPARAM, fit_blocked = $FITBLOCKED, fit_lmem = $FITLMEM, bam_args = list(rho = $RHO)))"
+	# LEN=`expr length "$CMD" - 1`
+	# SUBSTR=`echo "$CMD" | cut -c 18-$LEN`
+	printf "      $CMD\n"
+	printf "      Running $NMC simulations of version %s ... " "$j"
+	EXECTIME=`(/usr/bin/time -f "%E" Rscript -e "$CMD") 2>&1`
+	printf "DONE in $EXECTIME\n"
+    done
+done
+
+echo "Simulations completed."
