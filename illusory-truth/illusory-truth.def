@@ -3,8 +3,8 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 
 %labels
    Author dalejbarr
-   Version 1.0.0
-
+   Version 1.2.1
+ 
 %files
   powerclmm /usr/bin/powerclmm
   powergamm /usr/bin/powergamm
