@@ -2,11 +2,12 @@ INFERENCE=FALSE
 RECIPE=FALSE
 OUT=analysis.Rmd
 OUTFILE=analysis.html
-MODFITS=NULL
+REFIT=TRUE
+SAVEFIG=FALSE
 INFILE=NULL
 
 analysis : 
-	Rscript -e "library('truthiness'); reproduce_analysis(recipe = $(RECIPE), outfile = '$(OUTFILE)', modfits = $(MODFITS))"
+	Rscript -e "library('truthiness'); reproduce_analysis(recipe = $(RECIPE), outfile = '$(OUTFILE)', savefig = $(SAVEFIG), refit = $(REFIT))"
 
 fake_data : 
 	Rscript -e "library('truthiness'); set.seed(62); simulate_resp_files(80, path = 'all_null_raw', overwrite = TRUE); preprocess('all_null_raw', 'all_null')"
@@ -20,4 +21,4 @@ draft :
 	Rscript -e "rmarkdown::draft('$(OUT)', 'illusory-truth-analysis', 'truthiness', FALSE, FALSE)" && echo "wrote R Markdown script to $(OUT)"
 
 render :
-	Rscript -e "library('truthiness'); reproduce_analysis(recipe = $(RECIPE), infile = '$(INFILE)', outfile = '$(OUTFILE)', modfits = $(MODFITS))"
+	Rscript -e "library('truthiness'); reproduce_analysis(recipe = $(RECIPE), infile = '$(INFILE)', outfile = '$(OUTFILE)', savefig = $(SAVEFIG), refit = $(REFIT))"

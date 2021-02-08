@@ -3,7 +3,7 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 
 %labels
    Author dalejbarr
-   Version 1.2.1
+   Version 1.2.4
  
 %files
   powerclmm /usr/bin/powerclmm
@@ -21,7 +21,8 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   chmod a+x /usr/bin/powerlmem
   chmod a+x /usr/bin/powerequiv
   chmod a+x /usr/bin/makeit
+  Rscript -e 'devtools::install_version("Rdpack", version = "2.1", upgrade = "never")'
+  Rscript -e 'devtools::install_version("ez", version = "4.4-0", upgrade = "never")'  
   git clone https://github.com/dalejbarr/truthiness.git
   FNAME=`Rscript -e "ff <- devtools::build('truthiness'); cat(ff, '\n', sep = '')" | tail --lines=1 | xargs basename`
   R CMD INSTALL $FNAME
-  Rscript -e 'install.packages("ez")'
