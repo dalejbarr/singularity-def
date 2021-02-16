@@ -8,8 +8,10 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
 %files
   /home/daleb/singularity-def/autocorr/acsim /usr/bin/acsim
   /home/daleb/singularity-def/autocorr/custom /usr/bin/custom
+  /home/daleb/singularity-def/autocorr/practice /usr/bin/practice
   /home/daleb/singularity-def/autocorr/process_results /usr/bin/process_results
   /home/daleb/singularity-def/autocorr/process_results.R /opt/r_scripts/process_results.R
+  /home/daleb/singularity-def/autocorr/practice.R /opt/r_scripts/practice.R
   /home/daleb/singularity-def/autocorr/dotemacs /opt/dotemacs
   /home/daleb/singularity-def/autocorr/elsarticle.zip /opt/elsarticle.zip
 
@@ -17,14 +19,16 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   cat /opt/dotemacs >> /etc/emacs/site-start.el
   chmod a+x /usr/bin/acsim
   chmod a+x /usr/bin/custom
+  chmod a+x /usr/bin/practice
   chmod a+x /usr/bin/process_results
   chmod a+r /opt/r_scripts/process_results.R
+  chmod a+r /opt/r_scripts/practice.R
   chmod a+r /opt/elsarticle.zip
   apt update
   apt install -y time openssh-server zip unzip
   sed -i 's/^\s*#\s*\(ForwardX11\)\{1\}\(Trusted\)*\s\+\(no\|yes\)\+/\1\2 yes/g' /etc/ssh/ssh_config
   Rscript -e 'install.packages(c("patchwork", "viridis"))'
-  Rscript -e 'devtools::install_github("dalejbarr/autocorr@rev1", upgrade = "never")'
+  Rscript -e 'devtools::install_github("dalejbarr/autocorr@practicefx", upgrade = "never")'
   unzip /opt/elsarticle.zip -d /usr/share/texmf/tex/latex/ 
   cd /usr/share/texmf/tex/latex/elsarticle && \
   latex elsarticle.ins 
