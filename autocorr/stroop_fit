@@ -1,0 +1,3 @@
+#!/bin/bash -eu
+
+Rscript /opt/r_scripts/stroop.R $1 $2 $3

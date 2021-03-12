@@ -10,8 +10,11 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   /home/daleb/singularity-def/autocorr/custom /usr/bin/custom
   /home/daleb/singularity-def/autocorr/practice /usr/bin/practice
   /home/daleb/singularity-def/autocorr/process_results /usr/bin/process_results
+  /home/daleb/singularity-def/autocorr/stroop_fit /usr/bin/stroop_fit
+  /home/daleb/singularity-def/autocorr/stroop /usr/bin/stroop
   /home/daleb/singularity-def/autocorr/process_results.R /opt/r_scripts/process_results.R
   /home/daleb/singularity-def/autocorr/practice.R /opt/r_scripts/practice.R
+  /home/daleb/singularity-def/autocorr/stroop.R /opt/r_scripts/stroop.R
   /home/daleb/singularity-def/autocorr/dotemacs /opt/dotemacs
   /home/daleb/singularity-def/autocorr/elsarticle.zip /opt/elsarticle.zip
 
@@ -21,7 +24,10 @@ From: /home/daleb/singularity-def/talklab-tidy/talklab-tidy.sif
   chmod a+x /usr/bin/custom
   chmod a+x /usr/bin/practice
   chmod a+x /usr/bin/process_results
+  chmod a+x /usr/bin/stroop_fit
+  chmod a+x /usr/bin/stroop
   chmod a+r /opt/r_scripts/process_results.R
+  chmod a+r /opt/r_scripts/stroop.R
   chmod a+r /opt/r_scripts/practice.R
   chmod a+r /opt/elsarticle.zip
   apt update
