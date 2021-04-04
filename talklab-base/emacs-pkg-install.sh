@@ -22,7 +22,7 @@ elisp_code="
 ;;   $ emacs --batch --expr \"(define pkg-to-install 'smex)\" -l emacs-pkg-install.el
 ;;
 (require 'package)
-(setq package-user-dir \"/opt/emacs.d/packages\")
+(setq package-user-dir (car package-directory-list)) ;; \"/opt/emacs.d/packages\"
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl \"http\" \"https\")))
