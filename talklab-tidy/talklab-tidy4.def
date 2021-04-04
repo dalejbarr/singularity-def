@@ -18,6 +18,7 @@ From: ../talklab-base4/talklab-base4.sif
    Rscript -e 'install.packages("devtools")'
    Rscript -e 'install.packages("tidyverse")'
    Rscript -e 'install.packages(c("rmarkdown", "shiny", "webex", "knitr", "kableExtra", "xtable", "htmlTable", "patchwork"))'
+   Rscript -e 'install.packages("babynames")'
    Rscript -e 'install.packages(c("lme4", "ordinal", "multcomp", "emmeans"))'
    Rscript -e 'install.packages("RSQLite")'
    Rscript -e 'install.packages(c("bookdown"))'
