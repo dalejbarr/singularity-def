@@ -19,9 +19,9 @@ From: ubuntu:20.04
    Version 0.4.4
 
 %post
-   ORGVERS=9.3
+   ORGVERS=9.4.6
    RVERS=4
-   RVERSFULL=4.0.0
+   RVERSFULL=4.1.0
    EMACSVERS=26.3
    ESSVERS=18.10.2
    CURWD=$PWD
