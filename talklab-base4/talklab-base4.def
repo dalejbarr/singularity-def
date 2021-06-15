@@ -114,7 +114,7 @@ From: ubuntu:20.04
 
    ## install additional emacs packages
    chmod a+x /usr/bin/emacs-pkg-install.sh
-   mkdir -p /opt/emacs.d/packages
+   ## mkdir -p /opt/emacs.d/packages
    emacs-pkg-install.sh polymode
    emacs-pkg-install.sh poly-markdown
    emacs-pkg-install.sh poly-R
@@ -124,7 +124,6 @@ From: ubuntu:20.04
    emacs-pkg-install.sh company
    emacs-pkg-install.sh company-math
    emacs-pkg-install.sh company-statistics
-   emacs-pkg-install.sh solarized-theme
    emacs-pkg-install.sh org-ref
    emacs-pkg-install.sh org-re-reveal
    emacs-pkg-install.sh org-re-reveal-ref
